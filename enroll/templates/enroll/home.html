@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+<h1>Hola, {{ user.username }}</h1>
+<a href="{% url 'logout' %}">Cerrar sesión</a>
+<a href="{% url 'miscursos' %}">Mis Cursos</a>
+
+{% else %}
+<h1>Hola</h1>
+<a href="{% url 'register' %}">Registrarme</a>
+<a href="{% url 'login' %}">Iniciar sesión</a>
+{% endif %}
+
+{% if user.is_student %}
+    {% for curso in cursos %}
+    <a style="color: red" href="{% url 'detail' curso.id %}">{{ curso.name }}</a>
+    {% endfor %}
+{% elif user.is_teacher %}
+    {% for curso in cursos %}
+    <a style="color: green" href="{% url 'detail' curso.id %}">{{ curso.name }}</a>
+    {% endfor %}
+
+{% else %}
+    {% for curso in cursos %}
+    <a style="color: yellow" href="{% url 'detail' curso.id %}">{{ curso.name }}</a>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>
